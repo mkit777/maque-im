@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			body {
+				background-color: #FFFFFF;
+			}
+			
+			.mui-btn-block {
+				width: 90% !important;
+				padding: 0.625rem !important;
+				margin: 1.25rem auto !important;
+
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">登录/注册</h1>
+		</header>
+
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input id="username" type="text" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input id="password" type="password" class="mui-input-password" placeholder="请输入密码">
+				</div>
+				<button type="button" class="mui-btn mui-btn-green mui-btn-block">登录</button>
+			</form>
+
+		</div>
+
+		<script src="../js/mui.js"></script>
+		<script src="../js/lodash.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarBackground('#2c2c2c');
+			});
+
+			mui(document.body).on('tap', '.mui-btn', function() {
+				loginOrRegister();
+			});
+
+
+			function loginOrRegister() {
+				let username = document.getElementById('username');
+				let password = document.getElementById('password');
+				if (_.isEmpty(username.value)) {
+
+					mui.toast('用户名为空' + username.value)
+					username.focus();
+					return;
+				} else if (_.isEmpty(password.value)) {
+					mui.toast('密码为空' + password.value)
+					password.focus();
+					return;
+				}
+
+				mui.toast('username=' + username.value + ' password=' + password.value);
+
+
+				mui.ajax('', {
+					data: {
+						username: username.value,
+						password: password.value,
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(data) {
+						mui.toast("请求成功")
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("请求失败")
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>
